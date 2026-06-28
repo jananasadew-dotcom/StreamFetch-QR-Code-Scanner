@@ -5,14 +5,20 @@ const copyBtn = document.getElementById('copy');
 
 let scanner;
 
-// Function to handle successful scans
+// QR එක සාර්ථකව ස්කෑන් වුණාම ක්‍රියාත්මක වන කොටස
 function onScanSuccess(decodedText) {
     out.value = decodedText;
+
+    // 🔗 Auto Open Feature: ලින්ක් එකක්ද කියලා පරික්ෂා කිරීම
+    if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+        // බ්‍රවුසර් එකෙන් auto open වීම block කරන එක වැළැක්වීමට පොඩි alert එකක් දාමු
+        alert("Link detected! Opening: " + decodedText);
+        window.open(decodedText, '_blank'); // වෙනම ටැබ් එකක ලින්ක් එක ඕපන් වේ
+    }
 }
 
-// 1. Camera Scanning
+// 1. කැමරාව ක්‍රියාත්මක කිරීම
 cameraBtn.addEventListener('click', () => {
-    // Prevent starting multiple instances
     if (!scanner) {
         scanner = new Html5Qrcode("reader");
     }
@@ -21,33 +27,30 @@ cameraBtn.addEventListener('click', () => {
     cameraBtn.disabled = true;
 
     scanner.start(
-        { facingMode: "environment" }, // Attempt to use back camera
+        { facingMode: "environment" }, 
         {
-            fps: 10,    // Frames per second for scanning
-            qrbox: { width: 250, height: 250 } // Size of the scanning box
+            fps: 10,    
+            qrbox: { width: 250, height: 250 } 
         },
         onScanSuccess
     ).then(() => {
         cameraBtn.innerText = "Camera Scanning Active";
-        // Optionally add logic to change the viewfinder icon/text to blank or a 'stop' button
     })
     .catch(err => {
         console.error("Unable to start camera:", err);
         cameraBtn.innerText = "Error Starting Camera";
         cameraBtn.disabled = false;
-        alert("Camera permission denied or camera not found. Please ensure you are using HTTPS.");
+        alert("Camera permission denied or camera not found.");
     });
 });
 
-// 2. File Scanning
+// 2. ඉමේජ් එකක් අප්ලෝඩ් කරලා ස්කෑන් කිරීම
 fileInput.addEventListener('change', e => {
     const f = e.target.files[0]; 
     if (!f) return;
     
-    // Check if a scanner instance exists, stop it if it is running
     if(scanner && scanner.getState() === Html5QrcodeScannerState.SCANNING) {
         scanner.stop().then(() => {
-            // Once camera stops, perform file scan
             performFileScan(f);
         });
     } else {
@@ -64,11 +67,11 @@ function performFileScan(file) {
             alert("No QR code found in this image.");
         })
         .finally(() => {
-            tempScanner.clear(); // Clean up temporary instance
+            tempScanner.clear(); 
         });
 }
 
-// 3. Copy Button
+// 3. පිටපත් කිරීම (Copy Button)
 copyBtn.onclick = () => {
     if (out.value) {
         navigator.clipboard.writeText(out.value);
