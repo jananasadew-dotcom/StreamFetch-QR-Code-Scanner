@@ -5,15 +5,42 @@ const copyBtn = document.getElementById('copy');
 
 let scanner;
 
+// 🔗 පල්ලෙහායින් අලුතින් Go to Website බටන් එකක් හදාගමු
+const openLinkBtn = document.createElement('button');
+openLinkBtn.innerText = "🌐 Go to Website";
+openLinkBtn.style.display = "none"; // මුලින්ම හංගලා තියෙන්නේ
+openLinkBtn.style.marginTop = "10px";
+openLinkBtn.style.padding = "10px";
+openLinkBtn.style.backgroundColor = "#28a745";
+openLinkBtn.style.color = "white";
+openLinkBtn.style.border = "none";
+openLinkBtn.style.borderRadius = "5px";
+openLinkBtn.style.cursor = "pointer";
+openLinkBtn.style.fontWeight = "bold";
+openLinkBtn.style.width = "100%";
+
+// මේ බටන් එක Copy බටන් එකට පල්ලෙහායින් Screen එකට එකතු කරනවා
+copyBtn.parentNode.appendChild(openLinkBtn);
+
 // QR එක සාර්ථකව ස්කෑන් වුණාම ක්‍රියාත්මක වන කොටස
 function onScanSuccess(decodedText) {
     out.value = decodedText;
 
-    // 🔗 Auto Open Feature: ලින්ක් එකක්ද කියලා පරික්ෂා කිරීම
+    // 🔗 ලින්ක් එකක්ද කියලා පරික්ෂා කිරීම
     if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
-        // බ්‍රවුසර් එකෙන් auto open වීම block කරන එක වැළැක්වීමට පොඩි alert එකක් දාමු
-        alert("Link detected! Opening: " + decodedText);
-        window.open(decodedText, '_blank'); // වෙනම ටැබ් එකක ලින්ක් එක ඕපන් වේ
+        // ලින්ක් එකක් නම් "Go to Website" බටන් එක පෙන්වනවා
+        openLinkBtn.style.display = "block";
+        
+        // බටන් එක ක්ලික් කළාම ලින්ක් එක open වෙන්න හදනවා
+        openLinkBtn.onclick = () => {
+            window.open(decodedText, '_blank');
+        };
+
+        // බ්‍රවුසර් එකෙන් බ්ලොක් නොකළොත් auto open වෙන්නත් උත්සාහ කරනවා
+        window.open(decodedText, '_blank'); 
+    } else {
+        // ලින්ක් එකක් නොවේ නම් බටන් එක ආයෙත් හංගනවා
+        openLinkBtn.style.display = "none";
     }
 }
 
@@ -65,6 +92,7 @@ function performFileScan(file) {
         .catch(err => {
             console.error("QR file scan error:", err);
             alert("No QR code found in this image.");
+            openLinkBtn.style.display = "none"; // Error එකක් ආවොත් බටන් එක හංගනවා
         })
         .finally(() => {
             tempScanner.clear(); 
