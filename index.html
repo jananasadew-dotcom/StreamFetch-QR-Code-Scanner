@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StreamFetch QR Code Scanner</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Load the html5-qrcode library -->
     <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
     <div class="card">
         <h1>StreamFetch QR Code Scanner</h1>
         
-        <!-- Viewfinder/Result Area -->
         <div id="reader-container">
             <div id="reader"></div>
             <textarea id="result" readonly placeholder="Scanned QR code content will appear here..."></textarea>
+            
+            <div id="link-container" style="margin-top: 15px; text-align: center;">
+                <a id="web-link" href="#" target="_blank" style="display: none; background-color: #28a745; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block; text-align: center;">🌐 Go to Website</a>
+            </div>
         </div>
         
-        <!-- Action Buttons -->
         <div class="action-buttons">
             <button id="start-camera">
                 <img src="https://img.icons8.com/material-outlined/24/ffffff/camera--v1.png" alt="camera"/>
                 Start Camera Scan
             </button>
             
-            <!-- Hide default file input and style this label instead -->
             <label for="file" class="custom-file-upload">
                 <img src="https://img.icons8.com/material-outlined/24/ffffff/image.png" alt="file"/>
                 Scan from Image File
@@ -40,6 +40,5 @@
     </div>
 
     <script src="script.js"></script>
-    <div id="sfc2jxdct7lkszl8ml49lt4x2qagrs6q3xb"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=2jxdct7lkszl8ml49lt4x2qagrs6q3xb&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=2jxdct7lkszl8ml49lt4x2qagrs6q3xb" border="0" title="page counter" alt="page counter"></a></noscript>
 </body>
 </html>
